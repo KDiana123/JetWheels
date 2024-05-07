@@ -19,6 +19,7 @@ class Place(models.Model):
         return f"{self.city}, {self.country} ({self.code})"
 
 
+
 class Week(models.Model):
     number = models.IntegerField()
     name = models.CharField(max_length=16)
