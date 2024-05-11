@@ -23,7 +23,7 @@
             <div class="row main-row">
                 <div class="col-8">
                 <div class="ticket-details">
-                    <h5>Ticket Details</h5>
+                    <h5>Детали билета</h5>
                     <hr>
                     <div class="media-airline">
                         <div>
@@ -97,12 +97,12 @@
                             <path fill-rule="evenodd" d="M8 1a2.5 2.5 0 0 0-2.5 2.5V4h5v-.5A2.5 2.5 0 0 0 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5H2z"/>
                         </svg> 
 
-                        30 Kgs Check-in, 7 Kgs Cabin
+                        30 кг при регистрации, 7 кг в салоне
                     </div>
                 </div>
                 <div class="traveller-details">
                     <div class="traveller-head">
-                        <h5>Contact Information</h5>
+                        <h5>Контактная информация</h5>
                     </div>
                     <hr>
                     
@@ -114,7 +114,7 @@
                                 </div>
                             </div>-->
                             <div class="col-3 ci">
-                                Country Code
+                                Код страны
                                 <select name="countryCode" class="custom-select">
                                     <option data-countryCode="IN" value="91">India (+91)</option>
                                     <option data-countryCode="DZ" value="213">Algeria (+213)</option>
@@ -334,11 +334,11 @@
                                 </select>
                             </div>
                             <div class="col-3 ci">
-                                Mobile No
+                                Мобильный телефон
                                 <input type="text" name="mobile" class="form-control" placeholder="Mobile No" required>
                             </div>
                             <div class="col-6 ci">
-                                Email
+                                Почта
                                 <input type="email" name="email" class="form-control" placeholder="Email" required>
                             </div>
                         </div>
@@ -350,8 +350,8 @@
                 </div>
                 <div class="traveller-details individual-traveller-div">
                     <div class="traveller-head">
-                        <h5>Passenger Details</h5>
-                        <h6><span>0</span> Passengers</h6>
+                        <h5>Информация о пассажире</h5>
+                        <h6><span>0</span> Пассажиры</h6>
                     </div>
                     <hr>
                     <input type="hidden" id="p-count" name="passengersCount" value="0">
@@ -360,11 +360,11 @@
                     <div class="row each-traveller no-traveller">
                         <div>
                             <span class="traveller-name"></span>
-                            You have not added any adults to the list
+                            Вы не добавили в список Пассажиров
                         </div>
                     </div>
                     <div class="row add-traveller-div collapse" id="collapseExample">
-                        <div class="note-name"><span>IMPORTANT :</span> Enter your name as it is mentioned on your passport or any government approved ID.</div>
+                        <div class="note-name"><span>Важно :</span> Введите свое имя, указанное в вашем паспорте или любом удостоверении личности, утвержденном правительством.</div>
                         <div class="row form-group add-traveller-div-name">
                             <div class="col">
                                 <input type="text" class="form-control" id="fname" placeholder="First name">
@@ -376,36 +376,36 @@
                         
                         <div class="row form-group radio-div">
                             <div class="form-check-inline cd">
-                                Gender: 
+                                Пол:
                             </div>
                             <div class="form-check-inline">
                                 <label class="form-check-label">
-                                    <input type="radio" class="form-check-input gender" value="male">Male
+                                    <input type="radio" class="form-check-input gender" value="male">Мужчина
                                 </label>
                             </div>
                             <div class="form-check-inline">
                                 <label class="form-check-label">
-                                    <input type="radio" class="form-check-input gender" value="female">Female
+                                    <input type="radio" class="form-check-input gender" value="female">Женщина
                                 </label>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-primary btn-light" style="margin-right: auto;" onclick="add_traveller()">Add</button>
+                        <button type="button" class="btn btn-primary btn-light" style="margin-right: auto;" onclick="add_traveller()">Добавить</button>
                     </div>
                     <hr>
                     <div class="add-traveller">
-                        <button class="add-traveller-btn text-uppercase btn"  type="button" data-toggle="collapse" data-target="#collapseExample">+ ADD ADULT</button>
+                        <button class="add-traveller-btn text-uppercase btn"  type="button" data-toggle="collapse" data-target="#collapseExample">+ Добавить пассажира</button>
                     </div>
                 </div>
                 <div class="payment-btn" style="background-color: transparent;">
-                    <button type="submit" class="btn btn-primary btn-danger">Proceed to payment</button>
+                    <button type="submit" class="btn btn-primary btn-danger">Перейти к оплате</button>
                 </div>
                 </div>
                 <div class="col-4">
                     <div class="price-details">
-                        <h5>Fare Summary</h5>
+                        <h5>Общая сумма</h5>
                         <hr>
                         <div class="row base-fare">
-                            <div class="base-fae-label">Base Fare: </div>
+                            <div class="base-fae-label">Базовая цена: </div>
                             <div class="base-fare-value">
                                 {% if seat == 'First' %}
                                     ₹ <span>
@@ -438,13 +438,13 @@
                             </div>
                         </div>
                         <div class="row surcharges">
-                            <div class="surcharges-label">Fee & Surcharges: </div>
+                            <div class="surcharges-label">Комиссия и дополнительные сборы: </div>
                             <div class="surcharges-value">₹ <span>{{fee}}</span></div>
                             <input type="hidden" id="fee" value="{{fee}}">
                         </div>
                         <hr>
                         <div class="total-fare">
-                            <div class="total-fare-label">Total Fare: </div>
+                            <div class="total-fare-label">Общая сумма: </div>
                             <div class="total-fare-value">
                                 {% if seat == 'First' %}
                                     ₹ <span>
@@ -475,7 +475,7 @@
                         </div>
                     </div>
                     <div class="coupon-code">
-                        <h5>Have a coupon code?</h5>
+                        <h5>Есть купон?</h5>
                         <hr>
                         <div class="row base-fare">
                             <div class="col-9" style="padding: 10px 10px 10px 0px">
@@ -483,7 +483,7 @@
                             </div>
                             <div class="col coupon-apply" style="padding: 10px 10px 10px 0px">
                                 <center>
-                                    <button type="button" class="btn btn-primary btn-danger">Apply</button>
+                                    <button type="button" class="btn btn-primary btn-danger">Применить</button>
                                 </center>
                             </div>
                         </div>
@@ -491,7 +491,7 @@
                 </div>
                 <div class="col media-payment-btn">
                     <div>
-                        <button type="submit" class="btn btn-primary btn-danger">Proceed to payment</button>
+                        <button type="submit" class="btn btn-primary btn-danger">Перейти к оплате</button>
                     </div>
                 </div>
             </div>

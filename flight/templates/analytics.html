@@ -1,0 +1,314 @@
+{% extends 'flight/layout.html' %}
+
+{% load static %}
+
+{% block head %}
+    <title>Аналитика</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/contact.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+         body {
+            background-color: #f8f9fa;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .tabs {
+            overflow: hidden;
+            border: 1px solid #ced4da;
+            background-color: #d1ecf1;
+            margin-bottom: 20px;
+            border-radius: 0.25rem;
+        }
+
+        .tab {
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            background-color: #d1ecf1;
+            border-top-left-radius: 0.25rem;
+            border-top-right-radius: 0.25rem;
+            border: 1px solid transparent;
+        }
+
+        .tab.active {
+            background-color: #fff;
+            border-color: #ced4da;
+            border-bottom-color: transparent;
+            border-top-color: transparent;
+        }
+
+        .tab:hover {
+            background-color: #bee5eb;
+        }
+
+        .charts-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .chart-container {
+            width: 45%;
+            margin-bottom: 20px;
+            background-color: #fff;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            padding: 15px;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+    </style>
+{% endblock head %}
+{% block body %}
+<body>
+
+    <div style="width: 80%; margin: 0 auto;">
+        <h1>Аналитическая панель</h1>
+        <div class="tabs">
+            <button class="tab active" onclick="openTab(event, 'popularCars')">Машины</button>
+            <button class="tab" onclick="openTab(event, 'ordersByDay')">Бронирование Машин</button>
+            <button class="tab" onclick="openTab(event, 'flights')">Полеты</button>
+            <button class="tab" onclick="openTab(event, 'planes')">Самолеты</button>
+            <button class="tab" onclick="openTab(event, 'tickets')">Билеты</button>
+        </div>
+        <div id="popularCars" class="tab-content active">
+            <div class="charts-container">
+                <div class="chart-container">
+                    <h2>Самый популярный автомобиль</h2>
+                    <canvas id="popularCarsChart" width="400" height="300"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h2>Распределение цен</h2>
+                    <canvas id="priceDistributionChart" width="400" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+        <div id="ordersByDay" class="tab-content">
+            <div class="chart-container">
+                <h2>Заказы по дням</h2>
+                <canvas id="ordersByDayChart" width="400" height="300"></canvas>
+            </div>
+            <div class="chart-container">
+                <h2>Общая сумма по дням</h2>
+                <canvas id="totalAmountByDayChart" width="400" height="300"></canvas>
+            </div>
+        </div>
+        <div id="flights" class="tab-content">
+            <div class="charts-container">
+                <div class="chart-container">
+                    <h2>Популярные маршруты</h2>
+                    <canvas id="popularRoutesChart" width="400" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+        <div id="planes" class="tab-content">
+            <div class="charts-container">
+                <div class="chart-container">
+                    <h2>Популярные самолеты</h2>
+                    <canvas id="popularPlanesChart" width="400" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+        <div id="tickets" class="tab-content">
+            <div class="chart-container">
+                <h2>Продажи билетов по датам</h2>
+                <canvas id="ticketSalesByDateChart" width="400" height="300"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Most Popular Cars Chart
+            var popularCarsData = {
+                labels: [{% for car in popular_cars %}"{{ car.car__car_name }}"{% if not forloop.last %}, {% endif %}{% endfor %}],
+                datasets: [{
+                    label: 'Total Orders',
+                    data: [{% for car in popular_cars %}{{ car.total_orders }}{% if not forloop.last %}, {% endif %}{% endfor %}],
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            };
+
+            var popularCarsCtx = document.getElementById('popularCarsChart').getContext('2d');
+            var popularCarsChart = new Chart(popularCarsCtx, {
+                type: 'bar',
+                data: popularCarsData,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Price Distribution Chart
+            var priceDistributionData = {
+                labels: [{% for car in price_distribution %}"{{ car.car_name }}"{% if not forloop.last %}, {% endif %}{% endfor %}],
+                datasets: [{
+                    label: 'Total Price',
+                    data: [{% for car in price_distribution %}{{ car.total_price }}{% if not forloop.last %}, {% endif %}{% endfor %}],
+                    backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                    borderColor: 'rgba(255, 206, 86, 1)',
+                    borderWidth: 1
+                }]
+            };
+
+            var priceDistributionCtx = document.getElementById('priceDistributionChart').getContext('2d');
+            var priceDistributionChart = new Chart(priceDistributionCtx, {
+                type: 'pie',
+                data: priceDistributionData
+            });
+
+            // Orders by Day Chart
+            var ordersByDayData = {
+                labels: [{% for order in orders_by_day %}"{{ order.day }}"{% if not forloop.last %}, {% endif %}{% endfor %}],
+                datasets: [{
+                    label: 'Total Orders',
+                    data: [{% for order in orders_by_day %}{{ order.total }}{% if not forloop.last %}, {% endif %}{% endfor %}],
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            };
+
+            var totalAmountByDayData = {
+                labels: [{% for amount in total_amount_by_day %}"{{ amount.day }}"{% if not forloop.last %}, {% endif %}{% endfor %}],
+                datasets: [{
+                    label: 'Total Amount',
+                    data: [{% for amount in total_amount_by_day %}{{ amount.total }}{% if not forloop.last %}, {% endif %}{% endfor %}],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            };
+
+            var totalAmountByDayCtx = document.getElementById('totalAmountByDayChart').getContext('2d');
+            var totalAmountByDayChart = new Chart(totalAmountByDayCtx, {
+                type: 'bar',
+                data: totalAmountByDayData,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            var ordersByDayCtx = document.getElementById('ordersByDayChart').getContext('2d');
+            var ordersByDayChart = new Chart(ordersByDayCtx, {
+                type: 'line',
+                data: ordersByDayData,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Popular Routes Chart
+            var popularRoutesData = {
+                labels: [{% for route in popular_routes %}"{{ route.origin_id__city }} - {{ route.destination_id__city }}"{% if not forloop.last %}, {% endif %}{% endfor %}],
+                datasets: [{
+                    label: 'Total Flights',
+                    data: [{% for route in popular_routes %}{{ route.total_flights }}{% if not forloop.last %}, {% endif %}{% endfor %}],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            };
+
+            var popularRoutesCtx = document.getElementById('popularRoutesChart').getContext('2d');
+            var popularRoutesChart = new Chart(popularRoutesCtx, {
+                type: 'bar',
+                data: popularRoutesData,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Popular Planes Chart
+            var popularPlanesData = {
+                labels: [{% for plane in popular_planes %}"{{ plane.plane }}"{% if not forloop.last %}, {% endif %}{% endfor %}],
+                datasets: [{
+                    label: 'Total Flights',
+                    data: [{% for plane in popular_planes %}{{ plane.total_flights }}{% if not forloop.last %}, {% endif %}{% endfor %}],
+                    backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                    borderColor: 'rgba(255, 159, 64, 1)',
+                    borderWidth: 1
+                }]
+            };
+
+            var popularPlanesCtx = document.getElementById('popularPlanesChart').getContext('2d');
+            var popularPlanesChart = new Chart(popularPlanesCtx, {
+                type: 'bar',
+                data: popularPlanesData,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Ticket Sales by Date Chart
+            var ticketSalesByDateData = {
+                labels: [{% for ticket in ticket_sales_by_date %}"{{ ticket.date }}"{% if not forloop.last %}, {% endif %}{% endfor %}],
+                datasets: [{
+                    label: 'Tickets Sold',
+                    data: [{% for ticket in ticket_sales_by_date %}{{ ticket.total_tickets }}{% if not forloop.last %}, {% endif %}{% endfor %}],
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            };
+
+            var ticketSalesByDateCtx = document.getElementById('ticketSalesByDateChart').getContext('2d');
+            var ticketSalesByDateChart = new Chart(ticketSalesByDateCtx, {
+                type: 'line',
+                data: ticketSalesByDateData,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.remove("active");
+            }
+            tablinks = document.getElementsByClassName("tab");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+    </script>
+</body>
+{% endblock%}

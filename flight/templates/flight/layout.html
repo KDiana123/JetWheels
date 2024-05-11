@@ -1,7 +1,7 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,7 +22,7 @@
   <div class="container-fluid">
     <nav class="navbar navbar-expand-lg navbar-light">
       <a class="navbar-brand" href="{% url 'index' %}">
-          <img src="{% static 'img/icon_logo.png' %}" height="34" alt="">
+          <img src="{% static 'img/icon_logo2.png' %}" height="34" alt="">
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -31,13 +31,13 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item {% if not page %}active{% endif %}">
-            <a class="nav-link" href="{% url 'index' %}">Home</a>
+            <a class="nav-link" href="{% url 'index' %}">Главная</a>
           </li>
         <li class="nav-item {% if page == 'carindex' %}active{% endif %}">
-            <a class="nav-link" href="{% url 'carindex' %}">Book Cars</a>
+            <a class="nav-link" href="{% url 'carindex' %}">Забронировать автомобиль</a>
           </li>
           <li class="nav-item {% if page == 'bookings' %}active{% endif %}">
-            <a class="nav-link" href="{% url 'bookings' %}">My Bookings</a>
+            <a class="nav-link" href="{% url 'bookings' %}">Мои бронирования</a>
           </li>
         </ul>
         <ul class="navbar-nav">
@@ -47,13 +47,13 @@
                 <svg width="1.1em" height="1.1em" viewBox="0 1.5 16 16" class="bi bi-person-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
                 </svg>
-                Login
+                Вход
               </button>
             </li>
           {% else %}
             <li class="nav-item dropdown my-account">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                My Account
+                Мой аккаунт
               </a>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                 <div class="dropdown-header" style="display: flex; padding: .5rem 1.2rem">
@@ -69,13 +69,19 @@
                   </div>
                 </div>
                 <div class="dropdown-divider"></div>
+                  {% if request.user.is_staff %}
+                      <a class="dropdown-item" href="{% url 'analytics' %}">
+                       Меню аналитики
+                    </a>
+                  {% endif %}
                 <a class="dropdown-item" href="{% url 'logout' %}">
                   <svg width="1.1em" height="1.1em" viewBox="0 1.5 16 16" class="bi bi-power" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" d="M5.578 4.437a5 5 0 1 0 4.922.044l.5-.866a6 6 0 1 1-5.908-.053l.486.875z"/>
                     <path fill-rule="evenodd" d="M7.5 8V1h1v7h-1z"/>
                   </svg>
-                  Logout
+                  Выход
                 </a>
+                  
               </div>
             </li>
           {% endif %}
@@ -91,22 +97,22 @@
       <div class="container">
         <div>
           <div class="logo-container">
-            <img src="{% static 'img/icon_logo.png' %}">
+            <img src="{% static 'img/icon_logo2.png' %}">
           </div>
           <div class="footer-content">
             <div class="links-container">
               <div>
                 <ul class="link-list">
-                  <li class="list-item"><a class="footer-links" href="{% url 'contact' %}">Contact Us</a></li>
-                  <li class="list-item"><a class="footer-links" href="{% url 'aboutus' %}">About Us</a></li>
-                  <li class="list-item"><a class="footer-links" href="{% url 'privacypolicy' %}">Privacy Policy</a></li>
-                  <li class="list-item"><a class="footer-links" href="{% url 'termsandconditions' %}">Terms &amp; Conditions</a></li>
+                  <li class="list-item"><a class="footer-links" href="{% url 'contact' %}">Свяжитесь с нами</a></li>
+                  <li class="list-item"><a class="footer-links" href="{% url 'aboutus' %}">О нас</a></li>
+                  <li class="list-item"><a class="footer-links" href="{% url 'privacypolicy' %}">Политика конфиденциальности</a></li>
+                  <li class="list-item"><a class="footer-links" href="{% url 'termsandconditions' %}">Условия использования</a></li>
                 </ul>
               </div>
             </div>
             <div class="quote-container">
-              <div class="quote">“Surround yourself with people that are smarter than you, give them everything they need to grow, and your business will thrive.”</div>
-              <div class="quote-by">- Richard Branson</div>
+              <div class="quote">“Окружите себя людьми, которые умнее вас, дайте им всё, что им нужно для роста, и ваш бизнес процветет.”</div>
+              <div class="quote-by">- Ричард Брэнсон</div>
             </div>
           </div>
           <div class="social-links">
@@ -124,12 +130,12 @@
               <a href="#" class="social-icon">
                 <svg height="50" width="50" viewBox="10 22 53 30" xmlns="http://www.w3.org/2000/svg">
                   <g fill="none" fill-rule="evenodd" transform="translate(-.443)">
-                    <path d="m.943 0h48v48h-48z"></path><path d="m29.75 14.319c1.159.053 1.789.246 2.208.41.555.215.951.473 1.367.889s.674.812.89 1.367c.163.42.356 1.05.41 2.209.049 1.087.065 1.514.068 3.676v2.26c-.003 2.161-.019 2.589-.069 3.676-.053 1.16-.246 1.79-.41 2.208-.215.555-.473.952-.889 1.368s-.812.674-1.367.89c-.42.162-1.05.356-2.209.409-1.087.05-1.514.065-3.676.069h-2.26c-2.162-.004-2.589-.02-3.676-.069-1.16-.053-1.789-.247-2.208-.41-.555-.215-.952-.473-1.368-.89-.416-.415-.674-.812-.89-1.367-.162-.419-.356-1.049-.409-2.208-.055-1.212-.068-1.604-.07-4.498v-.308c0-3.176.013-3.552.07-4.806.053-1.16.247-1.79.41-2.209.215-.555.473-.95.89-1.367.415-.416.812-.674 1.367-.89.419-.163 1.049-.356 2.208-.41 1.213-.055 1.605-.068 4.498-.069h.308c3.176 0 3.552.012 4.806.07zm-4.783 3.593c-3.376 0-6.112 2.736-6.112 6.111 0 3.376 2.736 6.112 6.112 6.112 3.375 0 6.112-2.736 6.112-6.112 0-3.375-2.737-6.111-6.112-6.111zm0 2.144c2.191 0 3.967 1.776 3.967 3.967 0 2.192-1.776 3.968-3.967 3.968s-3.968-1.776-3.968-3.968c0-2.19 1.777-3.967 3.968-3.967zm6.3-3.844c-.781 0-1.415.634-1.415 1.416s.634 1.416 1.416 1.416 1.415-.634 1.415-1.416-.633-1.416-1.415-1.416z" fill="#1A1A1A"></path>
+                    <path d="m0 0h44v44h-44z"></path><path d="m29.75 14.319c1.159.053 1.789.246 2.208.41.555.215.951.473 1.367.889s.674.812.89 1.367c.163.42.356 1.05.41 2.209.049 1.087.065 1.514.068 3.676v2.26c-.003 2.161-.019 2.589-.069 3.676-.053 1.16-.246 1.79-.41 2.208-.215.555-.473.952-.889 1.368s-.812.674-1.367.89c-.42.162-1.05.356-2.209.409-1.087.05-1.514.065-3.676.069h-2.26c-2.162-.004-2.589-.02-3.676-.069-1.16-.053-1.789-.247-2.208-.41-.555-.215-.952-.473-1.368-.89-.416-.415-.674-.812-.89-1.367-.162-.419-.356-1.049-.409-2.208-.055-1.212-.068-1.604-.07-4.498v-.308c0-3.176.013-3.552.07-4.806.053-1.16.247-1.79.41-2.209.215-.555.473-.95.89-1.367.415-.416.812-.674 1.367-.89.419-.163 1.049-.356 2.208-.41 1.213-.055 1.605-.068 4.498-.069h.308c3.176 0 3.552.012 4.806.07zm-4.783 3.593c-3.376 0-6.112 2.736-6.112 6.111 0 3.376 2.736 6.112 6.112 6.112 3.375 0 6.112-2.736 6.112-6.112 0-3.375-2.737-6.111-6.112-6.111zm0 2.144c2.191 0 3.967 1.776 3.967 3.967 0 2.192-1.776 3.968-3.967 3.968s-3.968-1.776-3.968-3.968c0-2.19 1.777-3.967 3.968-3.967zm6.3-3.844c-.781 0-1.415.634-1.415 1.416s.634 1.416 1.416 1.416 1.415-.634 1.415-1.416-.633-1.416-1.415-1.416z" fill="#1A1A1A"></path>
                   </g>
                 </svg>
               </a>
               <a href="#" class="social-icon">
-                <svg width="20" height="20" viewBox="0 0 16 12" xmlns="http://www.w3.org/2000/svg">
+                <svg width="20" height="20" viewBox="0 2 16 16" xmlns="http://www.w3.org/2000/svg">
                   <path fill="#1A1A1A" d="m13.0766667.12266667c-2.4026667-.164-7.75400003-.16333334-10.15333337 0-2.598.17733333-2.904 1.74666666-2.92333333 5.87733333.01933333 4.1233333.32266667 5.6993333 2.92333333 5.8773333 2.4.1633334 7.75066667.164 10.15333337 0 2.598-.1773333 2.904-1.7466666 2.9233333-5.8773333-.0193333-4.12333333-.3226667-5.69933333-2.9233333-5.87733333zm-7.0766667 8.544v-5.33333334l5.3333333 2.662z"></path>
                 </svg>
               </a>

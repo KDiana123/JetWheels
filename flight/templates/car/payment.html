@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block head %}
-    <title>Оплата | Flight</title>
+    <title>Оплата | Авиабилеты</title>
     <link rel="stylesheet" href="{% static 'css/payment_style.css' %}">
 {% endblock %}
 
@@ -20,13 +20,10 @@
                     </div>
                 </div>
                 <div class="payment-details-input-box">
-                    <form action="{% url 'payment' %}" method="POST">
+                    <form action="{% url 'car_payment' %}" method="POST">
                         {% csrf_token %}
                         <!--<input type="hidden" name="payment_amount" value="{{fare}}">-->
                         <input type="hidden" name="ticket" value="{{ticket}}" required>
-                        {% if ticket2 %}
-                            <input type="hidden" name="ticket2" value="{{ticket2}}" required>
-                        {% endif %}
                         <div class="row payment-amount-div">
                             <div class="form-group">
                                 <label for="payment_amount">СУММА ОПЛАТЫ</label>
@@ -79,7 +76,7 @@
                                                 <option value="12">12</option>
                                             </select>
                                         </div>
-                                        <div class="yeae-div">
+                                        <div class="year-div">
                                             <select name="expYear" id="expiry_year" class="form-control" required>
                                                 <option value="">Год</option>
                                                 <option value="2020">2020</option>

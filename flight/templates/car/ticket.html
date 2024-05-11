@@ -1,0 +1,167 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/ico" href="/static/img/favicon.ico">
+    <title>Car Rental Confirmation</title>
+    <style>
+        @page{
+            margin: 37px 50px;
+        }
+        *{
+            padding: 0;
+            margin: 0;
+            font-family: sans-serif;
+        }
+        body{
+            padding: 7% 7%;
+        }
+        nav{
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .logo{
+            display: flex;
+        }
+        .header{
+            text-align: right;
+            font-size: 2em;
+            font-weight: 600;
+        }
+        li{
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+        .col{
+            -ms-flex-preferred-size:0;
+            flex-basis:0;
+            -ms-flex-positive:1;
+            flex-grow:1;
+            max-width:100%
+        }
+        table{
+            margin-top: 0;
+            width: 100%;
+        }
+        .table{
+            margin-top: 25px;
+        }
+        tr{
+            width: 100%;
+        }
+        th{
+            width: 25%;
+            text-align: left;
+            padding: 5px 20px;
+        }
+        td{
+            width: 25%;
+            text-align: left;
+            padding: 5px 15px;
+        }
+        caption{
+            text-align: left;
+            background-color: #a9a9a9;
+            color: white;
+            padding: 8px 15px;
+            font-weight: bold;
+        }
+        .tr-caption{
+            text-align: left;
+            background-color: #a9a9a9;
+            color: white;
+            padding: 0;
+            font-weight: bold;
+            width: 100%;
+            font-size: 1.4em;
+        }
+        .tr-even{
+            background-color: #f0f0f0;
+        }
+        .tr-odd{
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="col logo" style="width: 50%;">
+            <!--<img src="{% static 'img/icon_logo2.png' %}" width="45%">-->
+            <span style="color: rgb(225, 35, 35); font-weight: bold; font-size: 2.5em;">CAR RENTAL</span>
+        </div>
+        <div class="col header" style="width: 50%;">
+            <span style="margin: auto 0 auto auto;">Confirmation</span>
+        </div>
+    </nav>
+    <hr style="height: 1px; border: 0; background-color: grey;" noshade>
+    <main style="padding: 10px;">
+        <div style="margin: 15px auto;">
+            <h3>Important information</h3>
+            <ul style="padding-left: 50px;">
+                <li>
+                    This is your car rental confirmation. Please present it upon pickup.
+                </li>
+                <li>
+                    Make sure to have a copy of this document for any inquiries or issues.
+                </li>
+                <li>
+                    Pickup and dropoff times must be strictly adhered to. Additional charges may apply for late returns.
+                </li>
+            </ul>
+        </div>
+        <div class="table-div">
+            <table class="table">
+                <tr class="tr-caption">
+                    <td style="width: 100%;">ORDER INFORMATION</td>
+                </tr>
+            </table>
+            <table cellspacing='0' >
+                <tr class="tr-odd">
+                    <th>ORDER ID</th>
+                    <td>{{ order.order_id }}</td>
+                    <th>PICKUP DATE & TIME</th>
+                    <td>{{ order.pickup_date }}</td>
+                </tr>
+                <tr class="tr-even">
+                    <th>EMAIL</th>
+                    <td>{{ order.email }}</td>
+                    <th>PHONE</th>
+                    <td>{{ order.phone }}</td>
+                </tr>
+                <tr class="tr-odd">
+                    <th>DROPOFF DATE & TIME</th>
+                    <td>{{ order.dropoff_date }}</td>
+                    <th>TOTAL AMOUNT</th>
+                    <td>{{ order.total_amount }}</td>
+                </tr>
+                <tr class="tr-even">
+                    <th>STATUS</th>
+                    <td>{{ order.status }}</td>
+                    <th></th>
+                    <td></td>
+                </tr>
+            </table>
+            <table class="table">
+                <tr class="tr-caption">
+                    <td style="width: 100%;">CAR DETAILS</td>
+                </tr>
+            </table>
+            <table cellspacing='0'>
+                <tr class="tr-odd">
+                    <th>CAR ID</th>
+                    <th>MODEL</th>
+                </tr>
+                <tr class="tr-even">
+                    <td>{{ order.car_id }}</td>
+                    <td>{{ order.car.car_name }}</td>
+                </tr>
+            </table>
+        </div>
+    </main>
+    <p style="margin: 10px 0; font-size: .8em;">&#169;  {{ current_year }} Car Rental Inc. All rights reserved.</p>
+</body>
+</html>

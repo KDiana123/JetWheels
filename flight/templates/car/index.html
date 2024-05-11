@@ -11,7 +11,7 @@
     <section class="section first-section" style="background-image: linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.2)), url('{% static 'img/car1.jpg'%}');">
         <div class="banner-div">
             <div class="banner">
-            <h1 class="banner-text">Book Cars</h1>
+            <h1 class="banner-text">Забронируй Машину</h1>
             </div>
         </div>
         <div class="search-flight">
@@ -22,23 +22,23 @@
                         <div class="input-row" style="display: flex;">
                         </div>
                         <div class="input-row">
-                            <label for="flight-from">From: </label>
+                            <label for="flight-from">Место получения: </label>
                             <input type="text" name="Origin" placeholder="From" id="flight-from" class="form-control mr-sm-3" onblur="hideplaces(this)" data-value="{{origin | lower}}" data-list="places_from" autocomplete="off" value="{{origin | upper}}">  <!--list="places_from"-->
                             <div id="places_from" class="places_box">
                                 <div class="each_places_from_list places__list" data-value="ala" onclick="selectplace(this)">Almaty (Kazakhstan)</div>
                             </div>
                         </div>
                         <div class="input-row">
-                            <label for="depart_date">Pick up date: </label>
+                            <label for="depart_date">Дата получения: </label>
                             <input type="date" name="DepartDate" min="{{min_date}}" max="{{max_date}}" id="depart_date" placeholder="Date" class="form-control mr-sm-2" value="{{depart_date}}">
                         </div>
                         <div class="input-row">
-                            <label for="return_date">Drop-off date: </label>
+                            <label for="return_date">Дата возврата: </label>
                             <input type="date" name="ReturnDate" min="{{min_date}}" max="{{max_date}}" id="return_date" placeholder="Date" class="form-control mr-sm-2" value="{{return_date}}">
                         </div>
 
                         <div class="input-row">
-                            <button type="submit" class="btn btn-danger">Search Car</button>
+                            <button type="submit" class="btn btn-success">Поиск машины</button>
                         </div>
                     </div>
                 </div>
@@ -46,77 +46,5 @@
             </div>
         </div>
     </section>
-    <section class="section second-section">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-6">
-                    <div class="section_title text-center mb_70">
-                        <h2>Popular Destination</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row popular_destinations">
-                <div class="col-lg-4 col-md-6">
-                    <div class="single_destination" onclick="window.location.href = 'https://en.wikipedia.org/wiki/Tourism_in_Italy'">
-                        <div class="thumb">
-                            <img src="{% static 'img/destination/1.png' %}" alt="">
-                        </div>
-                        <div class="content">
-                            <a href="#">Italy</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="single_destination" onclick="window.location.href = 'https://en.wikipedia.org/wiki/Tourism_in_Brazil'">
-                        <div class="thumb">
-                            <img src="{% static 'img/destination/2.png' %}" alt="">
-                        </div>
-                        <div class="content">
-                            <a href="#">Brazil</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="single_destination" onclick="window.location.href = 'https://en.wikipedia.org/wiki/Tourism_in_the_United_States'">
-                        <div class="thumb">
-                            <img src="{% static 'img/destination/3.png' %}" alt="">
-                        </div>
-                        <div class="content">
-                            <a href="#">America</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="single_destination" onclick="window.location.href = 'https://en.wikipedia.org/wiki/Tourism_in_Nepal'">
-                        <div class="thumb">
-                            <img src="{% static 'img/destination/4.png' %}" alt="">
-                        </div>
-                        <div class="content">
-                            <a href="#">Nepal</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="single_destination" onclick="window.location.href = 'https://en.wikipedia.org/wiki/Tourism_in_the_Maldives'">
-                        <div class="thumb">
-                            <img src="{% static 'img/destination/5.png' %}" alt="">
-                        </div>
-                        <div class="content">
-                            <a href="#">Maldives</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="single_destination" onclick="window.location.href = 'https://en.wikipedia.org/wiki/Tourism_in_Indonesia'">
-                        <div class="thumb">
-                            <img src="{% static 'img/destination/6.png' %}" alt="">
-                        </div>
-                        <div class="content">
-                            <a href="#">Indonesia</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    
 {% endblock%}

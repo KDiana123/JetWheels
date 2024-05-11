@@ -6,6 +6,8 @@ from django.contrib.auth import authenticate, login, logout
 
 from datetime import datetime
 import math
+
+from car.models import Car, Order
 from .models import *
 from capstone.utils import render_to_pdf, createticket
 
@@ -410,9 +412,11 @@ def get_ticket(request):
 def bookings(request):
     if request.user.is_authenticated:
         tickets = Ticket.objects.filter(user=request.user).order_by('-booking_date')
+        cars = Order.objects.filter(user=request.user).order_by('-pickup_date')
         return render(request, 'flight/bookings.html', {
             'page': 'bookings',
-            'tickets': tickets
+            'tickets': tickets,
+            'cars': cars,
         })
     else:
         return HttpResponseRedirect(reverse('login'))
@@ -434,10 +438,17 @@ def cancel_ticket(request):
                         'error': "User unauthorised"
                     })
             except Exception as e:
-                return JsonResponse({
-                    'success': False,
-                    'error': e
-                })
+                try:
+                    order = Order.objects.get(ref_no=ref)
+                    if order.user == request.user:
+                        order.status = 'CANCELLED'
+                        order.save()
+                        return JsonResponse({'success': True})
+                except Exception as e:
+                    return JsonResponse({
+                        'success': False,
+                        'error': e
+                    })
         else:
             return HttpResponse("User unauthorised")
     else:
@@ -447,12 +458,20 @@ def resume_booking(request):
     if request.method == 'POST':
         if request.user.is_authenticated:
             ref = request.POST['ref']
-            ticket = Ticket.objects.get(ref_no=ref)
-            if ticket.user == request.user:
-                return render(request, "flight/payment.html", {
-                    'fare': ticket.total_fare,
-                    'ticket': ticket.id
-                })
+            try:
+                ticket = Ticket.objects.get(ref_no=ref)
+                if ticket.user == request.user:
+                    return render(request, "flight/payment.html", {
+                        'fare': ticket.total_fare,
+                        'ticket': ticket.id
+                    })
+            except Exception as e:
+                order = Order.objects.get(ref_no=ref)
+                if order.user == request.user:
+                    return render(request, "flight/payment.html", {
+                        'fare': order.total_amount,
+                        'ticket': order.order_id
+                    })
             else:
                 return HttpResponse("User unauthorised")
         else:

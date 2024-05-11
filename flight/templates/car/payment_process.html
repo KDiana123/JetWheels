@@ -3,15 +3,15 @@
 {% load static %}
 
 {% block head %}
-    <title>Обработка платежа | Flight</title>
+    <title>Обработка оплаты | Flight</title>
     <link rel="stylesheet" href="{% static 'css/payment_process_style.css' %}">
-    <script type="text/javascript" src="{% static 'js/payment_process.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/car/payment_process.js' %}"></script>
 {% endblock %}
 
 {% block body %}
     <section class="section section1">
         <div class="gif-div">
-            <img src="{% static 'img/process.gif' %}" alt="обработка">
+            <img src="{% static 'img/process.gif' %}" alt="processing">
         </div>
         <div class="header-before">
             Обработка платежа...
@@ -20,7 +20,7 @@
             Пожалуйста, подождите, пока мы обрабатываем ваш платеж.
         </div>
     </section>
-    <input type="hidden" class="ref1" value="{{ticket1.ref_no}}">
+    <input type="hidden" class="ref1" value="{{ticket1.order_id}}">
     <input type="hidden" class="ref2" value="{{ticket2.ref_no}}">
     <section class="section section2">
         <div class="svg-div-c">
@@ -29,22 +29,21 @@
             </svg>
         </div>
         <div class="header-after">
-            Поздравляем, ваше бронирование авиабилета подтверждено.
+            Поздравляем, ваш заказ автомобиля подтвержден.
         </div>
         <div class="details-div">
-            <div class="flight1">Номер бронирования: &nbsp;<span class="ref">{{ticket1.ref_no}}</span>&nbsp;&nbsp;&nbsp;(<span class="from1">{{ticket1.flight.origin.code}}</span> <span>&#8594;</span> <span class="to1">{{ticket1.flight.destination.code}}</span>)</div>
-            <div class="flight2">Номер бронирования: &nbsp;<span class="ref">{{ticket2.ref_no}}</span>&nbsp;&nbsp;&nbsp;(<span class="from2">{{ticket2.flight.origin.code}}</span> <span>&#8594;</span> <span class="to2">{{ticket2.flight.destination.code}}</span>)</div>
+
         </div>
         <div class="ticket-div">
             <div>
-                <form action="{% url 'getticket' %}" method="get" target="_blank">
+                <form action="{% url 'cargetticket' %}" method="get" target="_blank">
                     <input type="hidden" name="ref" value="{{ticket1.ref_no}}">
-                    <button type="submit" class="btn btn-outline-primary">Распечатать билет ({{ticket1.flight.origin.code}} до {{ticket1.flight.destination.code}})</button>
+                    <button type="submit" class="btn btn-outline-primary">Печать</button>
                 </form>
                 {% if ticket2 %}
-                    <form action="{% url 'getticket' %}" method="get" target="_blank">
+                    <form action="{% url 'cargetticket' %}" method="get" target="_blank">
                         <input type="hidden" name="ref" value="{{ticket2.ref_no}}">
-                        <button type="submit" class="btn btn-outline-primary">Распечатать билет ({{ticket2.flight.origin.code}} до {{ticket2.flight.destination.code}})</button>
+                        <button type="submit" class="btn btn-outline-primary">Печать билета ({{ticket2.flight.origin.code}} до {{ticket2.flight.destination.code}})</button>
                     </form>
                 {% endif %}
             </div>
@@ -57,7 +56,7 @@
             </svg>
         </div>
         <div class="header-after star">
-            При обработке платежа произошла ошибка.
+            Произошла ошибка при обработке платежа.
         </div>
         <div class="below-header">
             Пожалуйста, попробуйте позже.

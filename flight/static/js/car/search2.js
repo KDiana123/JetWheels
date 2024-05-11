@@ -268,6 +268,7 @@ function filter_price() {
     let div = document.querySelector("#flights_div");
     let flights = div.querySelectorAll(".each-flight-div-box");
     for (let i = 0; i < flights.length; i++) {
+        console.log(flights[i])
         if (flights[i].querySelector(".flight-price span").innerText > parseInt(value)) {
             //flights[i].style.display = 'none';
             flights[i].classList.add('hide');

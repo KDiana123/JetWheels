@@ -17,12 +17,23 @@ class Car(models.Model):
         return self.car_name
 
 
+ORDER_STATUS =(
+    ('PENDING', 'Pending'),
+    ('PAID', 'Paid'),
+    ('CONFIRMED', 'Confirmed'),
+    ('CANCELLED', 'Cancelled'),
+    ('CLOSED', 'Closed')
+)
+
+
 class Order(models.Model):
     order_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(flight_models.User, on_delete=models.CASCADE, related_name="orders")
     email = models.CharField(max_length=50, default="")
     phone = models.CharField(max_length=20, default="")
     car = models.ForeignKey(Car, on_delete=models.CASCADE, related_name="cars")
-    pickup_date = models.TimeField(auto_now=False, auto_now_add=False)
-    dropoff_date = models.TimeField(auto_now=False, auto_now_add=False)
+    pickup_date = models.DateField(blank=True, null=True)
+    dropoff_date = models.DateField(blank=True, null=True)
     total_amount = models.IntegerField(default=0)
+    status = models.CharField(max_length=45, choices=ORDER_STATUS, default='PENDING')
+    ref_no = models.CharField(max_length=8, unique=True, blank=True)

@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block head %}
-    <title>Contact | Flight</title>
+    <title>Контакты | Авиаперелеты</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/contact.css' %}">
 {% endblock head %}
 
@@ -13,7 +13,7 @@
           <div class="row">
               <div class="col-md-6 top-left-section">
                 <div class="section-heading">
-                    <h1>Get in touch with us</h1>
+                    <h1>Свяжитесь с нами</h1>
                     <div class="line-dec"></div>
                 </div>
                 <div class="row-fluid-wrapper row-depth-1 row-number-3 section-1-column-1-row-1-margin dnd-row">
@@ -71,34 +71,34 @@
                   {% csrf_token %}
                     <script type="text/javascript">
                     function ValidateForm(frm) {
-                    if (frm.Name.value == "") { alert('Name is required.'); frm.Name.focus(); return false; }
-                    if (frm.FromEmailAddress.value == "") { alert('Email address is required.'); frm.FromEmailAddress.focus(); return false; }
-                    if (frm.FromEmailAddress.value.indexOf("@") < 1 || frm.FromEmailAddress.value.indexOf(".") < 1) { alert('Please enter a valid email address.'); frm.FromEmailAddress.focus(); return false; }
-                    if (frm.Comments.value == "") { alert('Please enter comments or questions.'); frm.Comments.focus(); return false; }
-                    alert('Thank you for contacting us. We will get back to you as soon as possible.');
+                    if (frm.Name.value == "") { alert('Пожалуйста, введите имя.'); frm.Name.focus(); return false; }
+                    if (frm.FromEmailAddress.value == "") { alert('Пожалуйста, введите адрес электронной почты.'); frm.FromEmailAddress.focus(); return false; }
+                    if (frm.FromEmailAddress.value.indexOf("@") < 1 || frm.FromEmailAddress.value.indexOf(".") < 1) { alert('Пожалуйста, введите действительный адрес электронной почты.'); frm.FromEmailAddress.focus(); return false; }
+                    if (frm.Comments.value == "") { alert('Пожалуйста, введите комментарии или вопросы.'); frm.Comments.focus(); return false; }
+                    alert('Спасибо за обращение к нам. Мы свяжемся с вами в ближайшее время.');
                     return true; }
                     </script>
                     <table style="width:100%;max-width:550px;border:0;" cellpadding="8" cellspacing="0">
                     <tr> <td>
-                    <label for="Name">Name:</label>
+                    <label for="Name">Имя:</label>
                     </td> <td>
-                    <input name="Name" type="text" maxlength="60"  autocomplete="off" placeholder="John Doe" required>
+                    <input name="Name" type="text" maxlength="60"  autocomplete="off" placeholder="Иванов Иван" required>
                     </td> </tr> <tr> <td>
-                    <label for="PhoneNumber">Phone:</label>
+                    <label for="PhoneNumber">Телефон:</label>
                     </td> <td>
-                    <input name="PhoneNumber" type="tel" maxlength="15"  autocomplete="off" placeholder="+91 9999988888" required>
+                    <input name="PhoneNumber" type="tel" maxlength="15"  autocomplete="off" placeholder="+7 999 999 99 99" required>
                     </td> </tr> <tr> <td>
                     <label for="FromEmailAddress">Email:</label>
                     </td> <td>
-                    <input name="FromEmailAddress" type="email" maxlength="90"  autocomplete="off" placeholder="john@gmail.com" required>
+                    <input name="FromEmailAddress" type="email" maxlength="90"  autocomplete="off" placeholder="ivan@example.com" required>
                     </td> </tr> <tr> <td>
-                    <label for="Comments">Message:</label>
+                    <label for="Comments">Сообщение:</label>
                     </td> <td>
-                    <textarea name="Comments" rows="7" cols="40" autocomplete="off" placeholder="Enter your message here..." required></textarea>
+                    <textarea name="Comments" rows="7" cols="40" autocomplete="off" placeholder="Введите ваше сообщение здесь..." required></textarea>
                     </td> </tr> <tr> <td>
                     </td> <td>
-                    <button class="btn btn-danger">Send Message</button>
-                    <button type='submit' class="btn btn-danger" hidden>Send Message</button>
+                    <button class="btn btn-success">Отправить сообщение</button>
+                    <button type='submit' class="btn btn-success" hidden>Отправить сообщение</button>
                     {% comment %} <input name="skip_Submit" type="submit" value="Send Message" /> {% endcomment %}
                     </td> </tr>
                     </table>
@@ -108,4 +108,4 @@
       </div>
     </div>
   </section>
-{% endblock%}
+{% endblock %}

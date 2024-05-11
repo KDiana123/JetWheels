@@ -1,21 +1,32 @@
+import os
 from io import BytesIO
 from django.http import HttpResponse
 from django.template.loader import get_template
 
+from capstone import settings
 from flight.models import *
 import secrets
 from datetime import datetime, timedelta
-# from xhtml2pdf import pisa
+from xhtml2pdf import pisa
 
 from flight.constant import FEE
 
+
+def fetch_pdf_resources(uri, rel):
+    if uri.find(settings.STATIC_URL) != -1:
+        path = os.path.join(settings.STATIC_ROOT, uri.replace(settings.STATIC_URL, ''))
+    else:
+        path = None
+    return path
+
+
 def render_to_pdf(template_src, context_dict={}):
-    # template = get_template(template_src)
-    # html  = template.render(context_dict)
-    # result = BytesIO()
-    # pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
-    # if not pdf.err:
-    #     return HttpResponse(result.getvalue(), content_type='application/pdf')
+    template = get_template(template_src)
+    html = template.render(context_dict)
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("utf-8")), result,  link_callback=fetch_pdf_resources, encoding='utf-8')
+    if not pdf.err:
+        return HttpResponse(result.getvalue(), content_type='application/pdf')
     return None
 
 

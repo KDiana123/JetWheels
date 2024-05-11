@@ -19,7 +19,7 @@ body{
     transition-duration: .2s;
 }
 .nav-link:hover{
-    color: #e12323!important;
+    color: green!important;
     transition-duration: .2s;
 }
 .my-account .dropdown-header{
@@ -216,7 +216,7 @@ body{
     text-decoration: none;
 }
 .single_destination:hover content a{
-    background-color: red;
+    background-color: green;
 }
 
 footer{
