@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("flight.urls")),
     path('', include("car.urls")),
+    path('', include("tour.urls")),
     # path('admin_tools_stats/', include('admin_tools_stats.urls')),
     path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('img/favicon.ico')))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -177,6 +177,7 @@
 }
 .company-name{
     font-weight: bold;
+    padding: 12px;
 }
 .plane-name{
     font-size: .8em;

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'flight',
     'car',
     'chartjs',
+    'tour'
 ]
 
 MIDDLEWARE = [

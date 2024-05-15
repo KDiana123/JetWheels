@@ -36,6 +36,9 @@
         <li class="nav-item {% if page == 'carindex' %}active{% endif %}">
             <a class="nav-link" href="{% url 'carindex' %}">Забронировать автомобиль</a>
           </li>
+        <li class="nav-item {% if page == 'tourindex' %}active{% endif %}">
+            <a class="nav-link" href="{% url 'tourindex' %}">Забронировать Тур</a>
+          </li>
           <li class="nav-item {% if page == 'bookings' %}active{% endif %}">
             <a class="nav-link" href="{% url 'bookings' %}">Мои бронирования</a>
           </li>

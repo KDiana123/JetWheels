@@ -8,6 +8,12 @@
     <link rel="stylesheet" href="{% static 'css/search2_style.css' %}">
     <!--<script src="{% static 'js/search.js' %}"></script>-->
     <script src="{% static 'js/car/search2.js' %}"></script>
+    <style>
+    #disabled {
+        pointer-events: none;
+        opacity: 0.5; /* Можно настроить уровень прозрачности по желанию */
+    }
+    </style>
 {% endblock %}
 
 {% block body %}
@@ -23,23 +29,13 @@
                 <div class="v-line"></div>
                 <div class="trip-time">
                     <div class="depart-date-div">
-                        <div class="small-label">Дата получения</div>
+                        <div class="small-label">Дата тура</div>
                         <div class="white">{{depart_date|date:"D, d M Y"}}</div>
-                    </div>
-                    <div class="return-date-div">
-                        <div class="small-label">Дата возврата</div>
-                        <div class="white">
-                            {% if return_date %}
-                                {{return_date|date:"D, d M Y"}}
-                            {% else %}
-                                --
-                            {% endif %}
-                        </div>
                     </div>
                 </div><div class="v-line"></div>
                 <div class="v-line"></div>
                 <div class="trip-modify">
-                    <form action="/cars" method="POST">
+                    <form action="/tour" method="POST">
                         {% csrf_token %}
                         <input type="hidden" name="Origin" value="{{origin.code|upper}}">
                         <input type="hidden" name="DepartDate" value='{{depart_date|date:"Y-m-d"}}'>
@@ -113,7 +109,7 @@
         <div class="query-result-div">
             <div class="container">
                 <div class="row">
-                    {% if cars %}
+                    {% if tours %}
                         <div class="col-lg-3 filter-div">
                             <div class="close-filter" style="margin-top: 0;">
                                 <button class="btn b1" onclick="close_filter(this)">
@@ -122,7 +118,7 @@
                                     </svg>
                                 </button>
                             </div>
-                            <div class="filter">
+                            <div class="filter" id="disabled">
                                 <center>
                                     <h4>Фильтр результатов</h4>
                                 </center>
@@ -142,7 +138,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div><!---->
+                                    </div>
                                     <div class="time-slot departure-time-slot-group">
                                         <div class="font-weight-bold">Время отправления</div>
                                         <div style="display: flex; justify-content: space-between;">
@@ -274,7 +270,7 @@
                             </div>
 
 
-                            {% if cars %}
+                            {% if tours %}
                                 <div class="sort-div">
                                 <div class="flight-company">
                                     <div class="sort-label">Отсортированно:</div>
@@ -301,34 +297,42 @@
 
 
                             <div id="flights_div">
-                                {% for flight in cars %}
+                                {% for flight in tours %}
 
                                     <div class="each-flight-div-box show">
                                         <div class="each-flight-div" onclick="media_click(this)">
                                             <div class="flight-company">
+                                                <br>
                                                 <div class="flight-icon">
-                                                    <img src="{{flight.image.url|slice:"7:" }}" height="130">
+                                                    <img src="{% static 'img/tours.png'%}" height="50">
                                                 </div>
                                                 <div class="company-details">
-                                                    <br>
-                                                    <br>
-                                                    <div class="company-name">{{flight.car_name}}</div>
+
+                                                    <div class="company-name">{{flight.tour_name}}</div>
 
                                                 </div>
                                             </div>
                                             <div class="flight-time flight-time-div">
                                                 <div class="flight-origin-time">
-{#                                                    <div class="flight-place">#}
-{#                                                        {{flight.pickup_location}}#}
-{#                                                    </div>#}
-                                                </div>
-                                                
-                                                <div class="flight-destination-time">
                                                     <div class="flight-time">
-                                                        <h5>{{flight.arrival_time|time:"H:i"}}</h5>
+                                                        <h5>{{flight.start_date|date:"d.m.y" }}</h5>
                                                     </div>
                                                     <div class="flight-place">
-                                                        {{flight.destination.city}}
+                                                        {{flight.location.city}}
+                                                    </div>
+                                                </div>
+                                                <div class="flight-stops tooltip">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="34" height="24" viewBox="0 0 24 24">
+                                                        <path d="M13,9.03544443 C14.6961471,9.27805926 16,10.736764 16,12.5 C16,14.263236 14.6961471,15.7219407 13,15.9645556 L13,21.5207973 C13,21.7969397 12.7761424,22.0207973 12.5,22.0207973 C12.2238576,22.0207973 12,21.7969397 12,21.5207973 L12,15.9645556 C10.3038529,15.7219407 9,14.263236 9,12.5 C9,10.736764 10.3038529,9.27805926 12,9.03544443 L12,3.5 C12,3.22385763 12.2238576,3 12.5,3 C12.7761424,3 13,3.22385763 13,3.5 L13,9.03544443 L13,9.03544443 Z M12.5,15 C13.8807119,15 15,13.8807119 15,12.5 C15,11.1192881 13.8807119,10 12.5,10 C11.1192881,10 10,11.1192881 10,12.5 C10,13.8807119 11.1192881,15 12.5,15 Z" transform="rotate(90 12.5 12.51)"/>
+                                                    </svg>
+                                                    <span class="tooltiptext" data-value="{{flight.duration}}"></span><!--07 hrs 50 mins-->
+                                                </div>
+                                                <div class="flight-destination-time">
+                                                    <div class="flight-time">
+                                                        <h5>{{flight.end_date|date:"d.m.y" }}</h5>
+                                                    </div>
+                                                    <div class="flight-place">
+                                                        {{flight.location.city}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -339,7 +343,7 @@
                                                             {% if seat == 'Economy' %}{{flight.economy_fare}}{% endif %}
                                                             {% if seat == 'Business' %}{{flight.business_fare}}{% endif %}
                                                             {% if seat == 'First' %}{{flight.first_fare}}{% endif %}
-                                                            {% widthratio flight.price 1 days %}
+                                                            {{ flight.price }}
                                                         </span>
                                                     </h5>
                                                 </div>
@@ -348,7 +352,7 @@
                                                         {% if forloop.couter == 1 %}checked{% endif %}
                                                         <input type="radio" class="flight1-radio r-b" name="test1" value="{{flight.id}}" data-plane='{{flight.plane}}' data-depart='{{flight.depart_time|time:"H:i"}}' data-arrive='{{flight.arrival_time|time:"H:i"}}' data-fare="{% if seat == 'Economy' %} {{flight.economy_fare}} {% elif seat == 'Business' %} {{flight.business_fare}} {% else %} {{flight.first_fare}} {% endif %}" {% if forloop.counter == 1 %}checked{% endif %}>
                                                     {% else %}
-                                                        <form action="{% url 'car_review' %}" method="GET" style="display: flex;">
+                                                        <form action="{% url 'tour_review' %}" method="GET" style="display: flex;">
                                                             <input type="hidden" name="flight1Id" value="{{flight.id}}">
                                                             <input type="hidden" name="flight1Date", value="{{depart_date|date:'d-m-Y'}}">
                                                             <input type="hidden" name="flight2Date", value="{{return_date|date:'d-m-Y'}}">
@@ -376,7 +380,7 @@
                                     <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
                                 </svg>
                                 <br><br>
-                                <h3>К сожалению, для этого поиска нет машин</h3>
+                                <h3>К сожалению, для этого поиска нет тура</h3>
                                 <p>
                                     Мы не можем найти машины который вы ищете. Пожалуйста, измените критерии поиска и повторите попытку.
                                 </p>
