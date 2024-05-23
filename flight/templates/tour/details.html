@@ -1,0 +1,150 @@
+{% extends 'flight/layout.html' %}
+
+{% load static %}
+
+{% block head %}
+    <style>body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.tour-details {
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.tour-details h1 {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.tour-details .tour-description {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+.tour-info {
+    margin-bottom: 20px;
+}
+
+.tour-info p {
+    margin: 5px 0;
+}
+
+.services-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.services-list li {
+    background-color: #e7f1ff;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 4px;
+}
+.carousel-item {
+    text-align: center; /* Center align the images */
+}
+
+.carousel-image {
+    max-height: 500px; /* Set maximum height for the images */
+    max-width: 900px; /* Maintain aspect ratio */
+    margin: 0 auto; /* Center horizontally */
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    top: 50%; /* Position the buttons vertically at 50% of the parent container */
+    transform: translateY(-50%); /* Center the buttons vertically */
+    width: 3rem; /* Set the width of the buttons */
+    height: 3rem; /* Set the height of the buttons */
+    opacity: 0.8; /* Set the opacity of the buttons */
+}
+
+.carousel-control-prev {
+    left: 15rem; /* Position the previous button 3rem to the left */
+}
+
+.carousel-control-next {
+    right: 15rem; /* Position the next button 3rem to the right */
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: #000; /* Set the background color of the icons */
+}
+
+/* Optionally, you can adjust the size of the icons */
+.carousel-control-prev-icon::before,
+.carousel-control-next-icon::before {
+    font-size: 2rem; /* Set the size of the icons */
+}
+</style>
+{% endblock %}
+{% block title %}{{ tour.tour_name }}{% endblock %}
+
+{% block body %}
+<div class="tour-details">
+    <h1>{{ tour.tour_name }}</h1>
+    <p class="tour-description"> {{ tour.tour_desc }}</p>
+    <div class="tour-info">
+        <p><strong>Цена:</strong>{{ tour.price }}₸</p>
+        <p><strong>Количество мест:</strong> {{ tour.tour_capacity }}</p>
+        <p><strong>Локация:</strong> {{ tour.location }}</p>
+        <p><strong>Начало тура:</strong> {{ tour.start_date }}</p>
+        <p><strong>Конец тура:</strong> {{ tour.end_date }}</p>
+    </div>
+    <h2>Услуги включенные в стоймость</h2>
+    <ul class="services-list">
+        {% for service in tour.services.all %}
+            <li>{{ service.name }}: {{ service.description }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Фотографии</h2>
+<div id="tourCarousel" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+        {% for photo in tour.photos.all %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <img src="{{photo.image.url|slice:"7:" }}" class="d-block w-100 carousel-image" alt="{{ photo.caption }}">
+                {% if photo.caption %}
+                <div class="carousel-caption d-none d-md-block">
+                    <p>{{ photo.caption }}</p>
+                </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+    <a class="carousel-control-prev" href="#tourCarousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#tourCarousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+<form action="{% url 'tour_review' %}" method="GET" style="display: flex;">
+<input type="hidden" name="flight1Id" value="{{tour.id}}">
+<input type="hidden" name="flight1Date", value="{{depart_date|date:'d-m-Y'}}">
+<input type="hidden" name="flight2Date", value="{{return_date|date:'d-m-Y'}}">
+<input type="hidden" name="days", value="{{days}}">
+<input type="hidden" name="pickupLocation", value="{{pickup_place}}">
+<button class="btn btn-primary btn-success o-b" type="submit">
+
+    Забронировать <!--&#8594;-->
+</button>
+</form>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}

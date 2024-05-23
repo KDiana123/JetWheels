@@ -1,3 +1,4 @@
+
 {% extends 'flight/layout.html' %}
 
 {% load static %}
@@ -307,10 +308,9 @@
                                         <div class="each-flight-div" onclick="media_click(this)">
                                             <div class="flight-company">
                                                 <div class="flight-icon">
-                                                    <img src="{{flight.image.url|slice:"7:" }}" height="130">
+                                                    <img src="{{flight.image.url|slice:"7:" }}" height="120">
                                                 </div>
                                                 <div class="company-details">
-                                                    <br>
                                                     <br>
                                                     <div class="company-name">{{flight.car_name}}</div>
 

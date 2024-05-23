@@ -1,0 +1,30 @@
+{% extends 'flight/layout.html' %}
+
+{% block body %}
+<div class="container mt-5">
+    <h2>Математический подсчет СМО</h2>
+    <form method="post" class="mb-5">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Посчитать</button>
+    </form>
+
+    {% if results %}
+    <h3>Результаты</h3>
+    <ul class="list-group">
+        <li class="list-group-item">Вероятность простоя каналов: {{ results.idle_probability|floatformat:4 }}</li>
+        <li class="list-group-item">Вероятность отказа: {{ results.rejection_probability|floatformat:4 }}</li>
+        <li class="list-group-item">Вероятность обслуживания: {{ results.service_probability|floatformat:4 }}</li>
+        <li class="list-group-item">Среднее число занятых каналов: {{ results.avg_busy_channels|floatformat:2 }}</li>
+        <li class="list-group-item">Среднее число заявок в очереди: {{ results.avg_queue_length|floatformat:2 }}</li>
+        <li class="list-group-item">Среднее число заявок в системе: {{ results.avg_system_length|floatformat:2 }}</li>
+        <li class="list-group-item">Абсолютная пропускная способность: {{ results.absolute_throughput|floatformat:2 }}</li>
+        <li class="list-group-item">Относительная пропускная способность: {{ results.relative_throughput|floatformat:2 }}</li>
+        <li class="list-group-item">Среднее время заявки в очереди: {{ results.avg_time_in_queue|floatformat:2 }} часа</li>
+        <li class="list-group-item">Среднее время заявки в системе: {{ results.avg_time_in_system|floatformat:2 }} часа</li>
+        <li class="list-group-item">Среднее время заявки под обслуживанием: {{ results.avg_time_in_service|floatformat:2 }} минуты</li>
+    </ul>
+    {% endif %}
+</div>
+    <br>
+{% endblock %}

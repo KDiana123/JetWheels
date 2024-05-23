@@ -190,7 +190,8 @@ def dashboard(request):
     popular_cars = Order.objects.values('car__car_name').annotate(total_orders=Count('car')).order_by('-total_orders')[:5]
 
     # Статистика по полетам
-    popular_routes = Flight.objects.values('origin_id__city', 'destination_id__city').annotate(total_flights=Count('id')).order_by('-total_flights')[:5]
+    popular_routes = Ticket.objects.values('flight__origin__city', 'flight__destination__city').annotate(total_tickets=Count('id')).order_by('-total_tickets')[:5]
+
 
     # Статистика по самолетам
     popular_planes = Flight.objects.values('plane').annotate(total_flights=Count('id')).order_by('-total_flights')[:5]

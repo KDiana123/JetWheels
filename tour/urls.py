@@ -1,5 +1,7 @@
+from django.conf.urls.static import static
 from django.urls import path
 from . import views
+from django.conf import settings
 
 urlpatterns = [
     path("tour", views.tour_index, name="tourindex"),
@@ -9,4 +11,6 @@ urlpatterns = [
     path("tour/payment", views.payment, name="car_payment"),
     path('tour/ticket/api/<str:ref>', views.ticket_data, name="tourdata"),
     path('tour/print', views.get_ticket, name="tourgetticket"),
+    path('tour/<int:tour_id>/', views.details, name='tour_details'),
+    path('service_metrics/', views.service_metrics_view, name='service_metrics')
 ]

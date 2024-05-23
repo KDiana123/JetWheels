@@ -307,9 +307,7 @@
                                                     <img src="{% static 'img/tours.png'%}" height="50">
                                                 </div>
                                                 <div class="company-details">
-
-                                                    <div class="company-name">{{flight.tour_name}}</div>
-
+                                                    <a href="{% url 'tour_details' flight.id %}" class="company-name">{{ flight.tour_name }}</a>
                                                 </div>
                                             </div>
                                             <div class="flight-time flight-time-div">

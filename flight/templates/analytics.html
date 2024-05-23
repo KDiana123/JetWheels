@@ -222,28 +222,29 @@
 
             // Popular Routes Chart
             var popularRoutesData = {
-                labels: [{% for route in popular_routes %}"{{ route.origin_id__city }} - {{ route.destination_id__city }}"{% if not forloop.last %}, {% endif %}{% endfor %}],
-                datasets: [{
-                    label: 'Total Flights',
-                    data: [{% for route in popular_routes %}{{ route.total_flights }}{% if not forloop.last %}, {% endif %}{% endfor %}],
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
-                }]
-            };
+    labels: [{% for route in popular_routes %}"{{ route.flight__origin__city }} - {{ route.flight__destination__city }}"{% if not forloop.last %}, {% endif %}{% endfor %}],
+    datasets: [{
+        label: 'Total Tickets', // Изменили название на 'Total Tickets'
+        data: [{% for route in popular_routes %}{{ route.total_tickets }}{% if not forloop.last %}, {% endif %}{% endfor %}], // Изменили на total_tickets
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1
+    }]
+};
 
-            var popularRoutesCtx = document.getElementById('popularRoutesChart').getContext('2d');
-            var popularRoutesChart = new Chart(popularRoutesCtx, {
-                type: 'bar',
-                data: popularRoutesData,
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
+var popularRoutesCtx = document.getElementById('popularRoutesChart').getContext('2d');
+var popularRoutesChart = new Chart(popularRoutesCtx, {
+    type: 'bar',
+    data: popularRoutesData,
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
 
             // Popular Planes Chart
             var popularPlanesData = {
